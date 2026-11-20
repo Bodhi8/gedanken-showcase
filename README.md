@@ -2,7 +2,7 @@
 
 *Run the thought experiment before you risk the capital.*
 
-**[Try Gedanken: the interactive demo](https://bodhi8.github.io/gedanken-showcase/)**
+**[Try Gedanken: the interactive demo](https://gedanken.vector1.ai)**
 
 Gedanken tests market research in thousands of simulated markets where the right answer is planted in advance. It measures which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change.
 
