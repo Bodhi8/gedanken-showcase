@@ -129,23 +129,30 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .offers .panel h3 { margin-bottom: 6px; }
 footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--muted); font-size: 13.5px; }
 .loop-svg text { font-size: 13px; }
+.ag-head, .ag-row { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 12px; align-items: center; }
+.ag-head { font: 500 12px var(--mono); color: var(--muted); margin-bottom: 8px; }
+.ag { display: grid; gap: 12px; }
+.ag-row { font-size: 14px; }
+.ag-row .cell { display: grid; grid-template-columns: 1fr 64px; gap: 8px; align-items: center; }
+@media (max-width: 480px) { .ag-head, .ag-row { grid-template-columns: 100px 1fr 1fr; font-size: 12.5px; } .ag-row .cell { grid-template-columns: 1fr 52px; } }
+#alpha .seg, #econ .seg { display: inline-flex; }
 @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
   <div class="brand">GEDANKEN <span>by Vector1</span></div>
-  <nav aria-label="Sections"><a href="#luck">Luck vs. alpha</a><a href="#crowd">LLM crowd</a><a href="#loop">Self-improving loop</a><a href="#dejavu">Déjà Vu</a><a href="#chat">Chat with Brian</a></nav>
+  <nav aria-label="Sections"><a href="#luck">Luck vs. alpha</a><a href="#crowd">LLM crowd</a><a href="#loop">Self-improving loop</a><a href="#dejavu">Déjà Vu</a><a href="#alpha">Alpha generation</a><a href="#econ">Economic research</a><a href="#chat">Chat with Brian</a></nav>
 </div></header>
 
 <main class="wrap">
   <section class="hero" aria-labelledby="title">
     <h1 id="title">Gedanken</h1>
     <p class="tagline">Run the thought experiment before you risk the capital.</p>
-    <p class="lede">Gedanken tests market research in thousands of simulated markets where the right answer is planted in advance. It finds out which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change. The engine is general; each market gets a domain pack built from its own causal story. Two packs run today: stock factors, and the chain from natural gas to fertilizer producers' earnings. Power and AI data centers come next.</p>
+    <p class="lede">Gedanken tests market research in thousands of simulated markets where the right answer is planted in advance. It finds out which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change. It does two jobs: it generates and tests alpha ideas, and it produces economic research on how shocks move through an economy. The engine is general; each market gets a domain pack built from its own causal story. Three packs run today: stock factors, the chain from natural gas to fertilizer producers' earnings, and energy-to-food pass-through. Power and AI data centers come next.</p>
     <div class="status">
       <span class="pill live">Daily LLM consensus log: running since Nov 19, 2026</span>
-      <span class="pill">Packs: stock factors · gas to fertilizer earnings · power (next)</span>
+      <span class="pill">Packs: stock factors · gas to fertilizer earnings · energy to food · power (next)</span>
       <span class="pill">Results below are simulation only</span>
     </div>
     <div class="cta-row">
@@ -207,7 +214,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
     <div>
       <div class="num">EXPERIMENT 03 · GAS-TO-FERTILIZER PACK</div>
       <h2 id="h-loop">A research system that improves itself and cannot grade its own homework</h2>
-      <p>An LLM, the Architect, proposes one change at a time to the research method. Sentinel, a fixed judge, scores each change on 1,000 fresh markets with no edge and 400 with one, and accepts it only if false discoveries stay under 5% and the gain is significant. The bar rises with every attempt, so tinkering gets harder.</p>
+      <p>A proposer, the Architect, suggests one change at a time to the research method. It can be a built-in library of edits or an LLM; the runs shown here used the built-in library. Sentinel, a fixed judge, scores each change on 1,000 fresh markets with no edge and 400 with one, and accepts it only if false discoveries stay under 5% and the gain is significant. The bar rises with every attempt, so tinkering gets harder.</p>
       <p>Sentinel's first version had a little slack. The loop found it immediately and accepted the one change that spent it. Sentinel was tightened, by a human, and the loop then found a real improvement: sizing positions by signal strength raised detection from 25% to 33% with 2% false discoveries.</p>
       <p class="small">Sentinel's code is hash-locked. The loop refuses to run if it changes without a human signature.</p>
     </div>
@@ -219,7 +226,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
           <path d="M480 76V112H80V76" marker-end="url(#ah)"/>
         </g>
         <rect x="10" y="28" width="140" height="48" rx="8" fill="none" stroke="var(--rule)" stroke-width="1.25"/>
-        <text x="80" y="57" text-anchor="middle" fill="var(--ink)" font-weight="600">Architect (LLM)</text>
+        <text x="80" y="57" text-anchor="middle" fill="var(--ink)" font-weight="600">Architect</text>
         <rect x="210" y="28" width="140" height="48" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
         <text x="280" y="57" text-anchor="middle" fill="var(--ink)" font-weight="600">Sentinel (fixed)</text>
         <rect x="410" y="28" width="140" height="48" rx="8" fill="none" stroke="var(--rule)" stroke-width="1.25"/>
@@ -257,6 +264,52 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
         <div><b>v0.2</b><span>causal map now models European gas, approved by Brian</span></div>
       </div>
       <p class="small" style="margin-top:12px">The general alarm caught the break about 11 months in, because the shock built slowly. That failure became a permanent, targeted check on producers that should move together, which caught it in 196 days with no false alarms. Synthetic data with a known answer; no real-market claims.</p>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="exp" id="alpha" aria-labelledby="h-alpha">
+    <div>
+      <div class="num">EXPERIMENT 05 · STOCK-FACTOR PACK · ALPHA GENERATION</div>
+      <h2 id="h-alpha">Can Gedanken find alpha on its own?</h2>
+      <p>Telling alpha from luck is half the job. The other half is finding it. We gave Gedanken's alpha generators 300 fresh stock markets with planted edges and 300 with none. Each generator chose its ideas on the first 10 years under one rule, a bar that rises with every idea tried, and those ideas then ran untouched for the next 10 years on data that was knowable at the time.</p>
+      <p>An AI economist writes its hypotheses down before seeing any data: the mechanism, the expected direction and the result that would refute it. A wider search explores within the fields and signs it allows. A point-in-time search tries every field that was knowable on its date. Brute force also uses fundamentals stamped at quarter end, before investors could see them.</p>
+      <p>The economist's most valuable contribution was a rule, not an idea: it refused fields that were not knowable on their date, and those are the fields that gave brute force false alpha in 40% of markets with no edge. Its specific ideas paid off only when the textbook matched the market. The most robust generator was the wide point-in-time search, which kept about half of the planted alpha in both kinds of market with 3% false alpha.</p>
+      <p class="small">Switch between markets where the textbook factors carry the edge and markets where the edge sits on other fields, with the opposite sign. Alpha captured is the share of a perfect-foresight strategy's Sharpe ratio kept in the untouched 10 years. The economist alone ran slightly above the 5% gate (6.3% to 7.0% over two runs), which is flagged for the next version of the judge.</p>
+    </div>
+    <div class="panel">
+      <div class="seg" role="group" aria-label="Kind of market">
+        <button type="button" data-c="A" aria-pressed="true">Textbook right</button>
+        <button type="button" data-c="B" aria-pressed="false">Textbook wrong</button>
+      </div>
+      <div class="ag-head"><span>Generator</span><span>Alpha captured</span><span>False alpha, no-edge markets</span></div>
+      <div class="ag" id="ag-rows"></div>
+      <p class="small" id="ag-note" style="margin-top:12px"></p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="exp" id="econ" aria-labelledby="h-econ">
+    <div>
+      <div class="num">EXPERIMENT 06 · ENERGY-TO-FOOD PACK · ECONOMIC RESEARCH</div>
+      <h2 id="h-econ">When natural gas jumps, how much reaches the grocery bill, and how fast?</h2>
+      <p>Not every question is about trading. The energy-to-food pack follows a gas price shock through nitrogen fertilizer, farm input costs, crop prices and the food-at-home price index. Before touching real data, Gedanken built 400 simulated economies with planted pass-through, each 25 years of monthly data, plus economies where the links are cut, and tested its method against them.</p>
+      <p>The test changed the method. With one common choice of standard errors, it raised false alarms 14.3% of the time at 24 months in economies with no pass-through. The choice it kept held false alarms to 4.8% at 3 months and 7.9% at 24, with 95% intervals that covered the planted truth 93% to 96% of the time.</p>
+      <p>The validation also set the limits. The method catches the gas effect on fertilizer every time at 3 months, catches a real but small effect on grocery prices less than half the time, and cannot separate a gas effect on crop prices from weather and demand. Those limits become rules for what any published finding may claim. The real-data run comes next and stays internal until it is reviewed.</p>
+      <p class="small">Pick a horizon: how often the method detects the planted effect at each link of the chain.</p>
+    </div>
+    <div class="panel">
+      <div class="seg" role="group" aria-label="Months after the gas shock">
+        <button type="button" data-h="3" aria-pressed="true">3 months</button>
+        <button type="button" data-h="12" aria-pressed="false">12 months</button>
+        <button type="button" data-h="24" aria-pressed="false">24 months</button>
+      </div>
+      <div class="bars" id="econ-bars"></div>
+      <div class="kv">
+        <div><b id="e-fa"></b><span>false alarms with no pass-through (target 5%)</span></div>
+        <div><b id="e-cov"></b><span>of 95% intervals cover the planted truth</span></div>
+      </div>
+      <p class="small" style="margin-top:12px">Method: local projections on an identified gas shock, validated on known-answer economies. Simulation only.</p>
     </div>
   </section>
 
@@ -398,6 +451,54 @@ renderLedger("all");
   svg.appendChild(el("line", { x1: dm, x2: dm, y1: T + 22, y2: B, stroke: "var(--good)", "stroke-width": 2 }));
   svg.appendChild(el("text", { x: dm - 6, y: T + 36, "text-anchor": "end", "font-size": 12, fill: "var(--good)" }, "divergence check fires"));
 })();
+
+// ---------- Experiment 05 ----------
+const AG = [
+  { m: "Economist alone", t: 3, A: 24, B: 0, fa: 7.0, faTxt: "≤ 7.0%" },
+  { m: "Economist + search", t: 29, A: 56, B: 0, fa: 3.7, faTxt: "≤ 3.7%" },
+  { m: "Point-in-time search", t: 81, A: 48, B: 48, fa: 3.0, faTxt: "3.0%" },
+  { m: "Brute force", t: 123, A: 82, B: 82, fa: 39.7, faTxt: "39.7%" },
+  { m: "Naive search", t: 123, A: 78, B: 78, fa: 98.0, faTxt: "98.0%" }
+];
+const AG_NOTE = {
+  A: "When the textbook is right, the economist plus search keeps the most alpha of any generator that stays under the 5% line. Brute force looks better on alpha, but 40% of its finds in no-edge markets are fake.",
+  B: "When the edge sits where the textbook does not look, the economist's ideas find nothing. The point-in-time search still keeps about half the alpha, with 3% false alpha."
+};
+function setAG(c) {
+  document.querySelectorAll("#alpha .seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.c === c));
+  const box = document.getElementById("ag-rows"); box.innerHTML = "";
+  AG.forEach(r => {
+    const row = document.createElement("div"); row.className = "ag-row";
+    const cap = r[c];
+    row.innerHTML = `<span>${r.m}<br><span class="small">${r.t} ideas tried</span></span>` +
+      `<div class="cell"><div class="track"><div class="fill" style="width:${cap}%;background:var(--accent)"></div></div><span class="val">${cap}%</span></div>` +
+      `<div class="cell"><div class="track"><div class="tolerance" style="left:5%"></div><div class="fill" style="width:${r.fa}%;background:${r.fa > 5 ? "var(--warn)" : "var(--good)"}"></div></div><span class="val">${r.faTxt}</span></div>`;
+    box.appendChild(row);
+  });
+  document.getElementById("ag-note").textContent = AG_NOTE[c];
+}
+document.querySelectorAll("#alpha .seg button").forEach(b => b.addEventListener("click", () => setAG(b.dataset.c)));
+setAG("A");
+
+// ---------- Experiment 06 ----------
+const ECON = {
+  "3":  { links: [["Nitrogen fertilizer", 100], ["Farm input costs", 100], ["Food at home prices", 44], ["Crop prices", 4]], fa: "4.8%", cov: "95 to 96%" },
+  "12": { links: [["Nitrogen fertilizer", 75], ["Farm input costs", 67], ["Food at home prices", 14], ["Crop prices", 7]], fa: "6.2%", cov: "94 to 95%" },
+  "24": { links: [["Nitrogen fertilizer", 13], ["Farm input costs", 13], ["Food at home prices", 9], ["Crop prices", 8]], fa: "7.9%", cov: "93 to 95%" }
+};
+function setEcon(h) {
+  document.querySelectorAll("#econ .seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.h === h));
+  const d = ECON[h], box = document.getElementById("econ-bars"); box.innerHTML = "";
+  d.links.forEach(([name, v]) => {
+    const row = document.createElement("div"); row.className = "bar-row";
+    row.innerHTML = `<span>${name}</span><div class="track"><div class="fill" style="width:${v}%;background:var(--accent)"></div></div><span class="val">${v}%</span>`;
+    box.appendChild(row);
+  });
+  document.getElementById("e-fa").textContent = d.fa;
+  document.getElementById("e-cov").textContent = d.cov;
+}
+document.querySelectorAll("#econ .seg button").forEach(b => b.addEventListener("click", () => setEcon(b.dataset.h)));
+setEcon("3");
 </script>
 </body>
 </html>

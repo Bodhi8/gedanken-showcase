@@ -30,7 +30,7 @@ Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial rese
 
 ![LLM crowd lifecycle](images/chart_llm_lifecycle.png)
 
-**3. A self-improving research system needs a judge it cannot edit.** An LLM (the Architect) proposes one change at a time; a fixed judge (Sentinel) tests each on fresh simulated markets and accepts it only if false discoveries stay under 5% and the gain survives a correction for every attempt ever made. The first version of the judge had a little slack, and the loop found and used it immediately. A human tightened the judge; the loop then found a real improvement.
+**3. A self-improving research system needs a judge it cannot edit.** A proposer (the Architect: a built-in library of edits, or an LLM when one is switched on) proposes one change at a time; a fixed judge (Sentinel) tests each on fresh simulated markets and accepts it only if false discoveries stay under 5% and the gain survives a correction for every attempt ever made. The first version of the judge had a little slack, and the loop found and used it immediately. A human tightened the judge; the loop then found a real improvement. In the logged runs, the built-in library proposed every change.
 
 **4. Simulations must notice when reality leaves them.** Déjà Vu measures how far the market sits from the simulated worlds. Tested on 22 years of synthetic data with a hidden 2021 European gas shock, it raised no false alarms before the shock, caught it with a targeted check, and identified the missing driver. That finding became the next version of the causal model.
 
@@ -39,7 +39,7 @@ Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial rese
 ## How it works
 
 ```
-Déjà Vu ──trigger──▶ Architect (LLM) ──candidate──▶ Sentinel (fixed judge)
+Déjà Vu ──trigger──▶ Architect (proposer) ──candidate──▶ Sentinel (fixed judge)
                           ▲                               │
                           └──────── verdict + lesson ◀────┤
                                                           ▼
