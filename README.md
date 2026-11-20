@@ -2,7 +2,7 @@
 
 *Run the thought experiment before you risk the capital.*
 
-**[Open the interactive demo](https://bodhi8.github.io/gedanken-showcase/)**
+**[Try Gedanken: the interactive demo](https://bodhi8.github.io/gedanken-showcase/)**
 
 Gedanken tests research methods in thousands of simulated markets where the right answer is planted in advance. It measures which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change. The first market is the chain from natural gas (US Henry Hub and European TTF) to nitrogen fertilizer margins, producer earnings and stock prices.
 
@@ -36,12 +36,14 @@ Déjà Vu ──trigger──▶ Architect (LLM) ──candidate──▶ Sentin
 
 Ideas borrowed openly: propose-and-score search with automated evaluators (AlphaEvolve), archives of self-modifying agents (Darwin Gödel Machine), and neural-network structure: the ledger as recurrent state, credit assignment that routes each failure to the layer that caused it, and a residual path that falls back to the last version that worked.
 
-## Work with Brian
+## Chat with Brian
 
-- **Validate your research process:** a known-answer test harness for your signals and models.
-- **LLM crowding risk:** how exposed your strategies are to views millions of people get from the same AI tools.
-- **Foundational ML and AI systems:** forecasting, causal inference and gated agent workflows, built early and handed to your team.
+Vector1 is a non-commercial research lab. These are the questions Gedanken keeps circling, and Brian is happy to compare notes on any of them:
 
-[Message Brian on LinkedIn](https://www.linkedin.com/in/brianjamescurry/) · [vector1.ai](https://vector1.ai) · Open source: [PyCausalSim](https://github.com/Bodhi8/pycausalsim), [Papilon](https://github.com/Bodhi8/papilon)
+- How often does a research process fool itself, and how would you know?
+- What happens to prices when millions of people ask the same AI for a view?
+- How do you build AI foundations before the playbook exists, and prove they hold?
+
+[Chat with Brian on LinkedIn](https://www.linkedin.com/in/brianjamescurry/) · [vector1.ai](https://vector1.ai) · Open source: [PyCausalSim](https://github.com/Bodhi8/pycausalsim), [Papilon](https://github.com/Bodhi8/papilon)
 
 *Gedanken is German for "thoughts", after Einstein's thought experiments.*
