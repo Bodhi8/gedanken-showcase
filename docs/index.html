@@ -75,7 +75,11 @@ p { margin: 0 0 12px; max-width: 65ch; }
 .small { font-size: 13.5px; color: var(--muted); }
 .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; }
 .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
-.seg button { font: 500 14px var(--body); padding: 8px 14px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
+#luck .seg { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+#luck .seg button + button { border-left: 0; }
+#luck .seg button:nth-child(even) { border-left: 1px solid var(--rule); }
+#luck .seg button:nth-child(n+3) { border-top: 1px solid var(--rule); }
+.seg button { font: 500 14px var(--body); padding: 8px 12px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--ink); }
 .seg button + button { border-left: 1px solid var(--rule); }
 .bars { display: grid; gap: 14px; }
@@ -127,10 +131,10 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
   <section class="hero" aria-labelledby="title">
     <h1 id="title">Gedanken</h1>
     <p class="tagline">Run the thought experiment before you risk the capital.</p>
-    <p class="lede">Gedanken tests research methods in thousands of simulated markets where the right answer is planted in advance. It finds out which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change. The first market is the chain from natural gas to nitrogen fertilizer to producer earnings and stock prices.</p>
+    <p class="lede">Gedanken tests market research in thousands of simulated markets where the right answer is planted in advance. It finds out which methods find real edges and which ones fool themselves, then rebuilds its own methods under a judge it cannot change. The engine is general; each market gets a domain pack built from its own causal story. Two packs run today: stock factors, and the chain from natural gas to fertilizer producers' earnings. Power and AI data centers come next.</p>
     <div class="status">
       <span class="pill live">Daily LLM consensus log: running since Nov 19, 2026</span>
-      <span class="pill">Causal map v0.2 (Henry Hub + European gas)</span>
+      <span class="pill">Packs: stock factors · gas to fertilizer earnings · power (next)</span>
       <span class="pill">Results below are simulation only</span>
     </div>
     <div class="cta-row">
@@ -142,25 +146,27 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
   <!-- 01 -->
   <section class="exp" id="luck" aria-labelledby="h-luck">
     <div>
-      <div class="num">EXPERIMENT 01</div>
-      <h2 id="h-luck">Can your research process tell alpha from luck?</h2>
-      <p>We generated 300 markets with no edge at all and 300 with a real, planted one, then ran two research methods on each.</p>
-      <p>The typical method tries 80 signal variants on the full history and keeps the best. In markets with no edge, it still claims to find one 75% of the time.</p>
-      <p>The disciplined method commits to one causal hypothesis and tests it once on data it never touched. It claims a false edge in 2% of those markets.</p>
-      <p class="small">Toggle the method to compare. The dashed line is a 5% tolerance for false discoveries.</p>
+      <div class="num">EXPERIMENT 01 · STOCK-FACTOR PACK</div>
+      <h2 id="h-luck">Can your factor research tell alpha from luck?</h2>
+      <p>We generated 300 stock markets (200 stocks, 10 years of monthly returns, fundamentals reported one to two months after each quarter) with no edge at all, and 300 where value and quality carry a real, planted premium.</p>
+      <p>A typical search tries 76 factor variants and keeps the best. In markets with no edge, it claims one 99% of the time. Two mistakes compound: trying many variants, and stamping fundamentals at quarter end, before investors could see them.</p>
+      <p>The disciplined test commits to one hypothesis, on data as investors saw it. It claims a false edge in 4% of those markets and still finds 90% of the real ones.</p>
+      <p class="small">Switch between the four approaches. The dashed line is a 5% tolerance for false discoveries.</p>
     </div>
     <div class="panel">
       <div class="seg" role="group" aria-label="Research method">
-        <button type="button" id="m-naive" aria-pressed="true">Typical: best of 80</button>
-        <button type="button" id="m-disc" aria-pressed="false">Disciplined: one hypothesis</button>
+        <button type="button" data-m="naive" aria-pressed="true">Best of 76</button>
+        <button type="button" data-m="noleak" aria-pressed="false">Best of 70, clean data</button>
+        <button type="button" data-m="leak" aria-pressed="false">One test, leaky dates</button>
+        <button type="button" data-m="disc" aria-pressed="false">One test, clean data</button>
       </div>
       <div class="bars">
         <div class="bar-row"><span>Claims an edge where none exists</span><div class="track"><div class="tolerance" style="left:5%"></div><div class="fill" id="b-fd"></div></div><span class="val" id="v-fd"></span></div>
         <div class="bar-row"><span>Finds a real planted edge</span><div class="track"><div class="fill" id="b-pw"></div></div><span class="val" id="v-pw"></span></div>
       </div>
       <div class="kv">
-        <div><b id="k-rep"></b><span id="k-rep-l"></span></div>
-        <div><b id="k-earn"></b><span>Sharpe it then earns on new data</span></div>
+        <div><b id="k-rep"></b><span>Sharpe it reports in markets with no edge</span></div>
+        <div><b id="k-earn"></b><span>factor variants tried</span></div>
       </div>
       <p class="small" id="luck-note" style="margin-top:12px"></p>
     </div>
@@ -169,7 +175,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
   <!-- 02 -->
   <section class="exp" id="crowd" aria-labelledby="h-crowd">
     <div>
-      <div class="num">EXPERIMENT 02</div>
+      <div class="num">EXPERIMENT 02 · GAS-TO-FERTILIZER PACK</div>
       <h2 id="h-crowd">When everyone asks the same AI, follow it or fade it?</h2>
       <p>More investors now ask LLMs for views. Research shows that early on, LLM reads of the news predicted returns, and that the edge shrank as adoption grew. Separate work finds LLM-guided retail trading moves together and then reverses.</p>
       <p>Gedanken simulates that crowd. Slide adoption up and watch following the LLM stop paying while fading it starts to pay. A fundamental signal, hedged when its view matches a crowded LLM view, holds up throughout.</p>
@@ -188,7 +194,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
   <!-- 03 -->
   <section class="exp" id="loop" aria-labelledby="h-loop">
     <div>
-      <div class="num">EXPERIMENT 03</div>
+      <div class="num">EXPERIMENT 03 · GAS-TO-FERTILIZER PACK</div>
       <h2 id="h-loop">A research system that improves itself and cannot grade its own homework</h2>
       <p>An LLM, the Architect, proposes one change at a time to the research method. Sentinel, a fixed judge, scores each change on 1,000 fresh markets with no edge and 400 with one, and accepts it only if false discoveries stay under 5% and the gain is significant. The bar rises with every attempt, so tinkering gets harder.</p>
       <p>Sentinel's first version had a little slack. The loop found it immediately and accepted the one change that spent it. Sentinel was tightened, by a human, and the loop then found a real improvement: sizing positions by signal strength raised detection from 25% to 33% with 2% false discoveries.</p>
@@ -227,7 +233,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
   <!-- 04 -->
   <section class="exp full" id="dejavu" aria-labelledby="h-dv">
     <div>
-      <div class="num">EXPERIMENT 04</div>
+      <div class="num">EXPERIMENT 04 · GAS-TO-FERTILIZER PACK</div>
       <h2 id="h-dv">Déjà Vu: noticing when the real world leaves the simulation</h2>
       <p>Simulations are only useful while they resemble the market. Déjà Vu fingerprints the market every two weeks and measures how far it sits from the simulated worlds. To test it, we built 22 years of synthetic market data with a hidden structural break: from August 2021, European gas decouples from US gas and spikes, the way it did in the real 2021 to 2022 crisis.</p>
     </div>
@@ -273,27 +279,24 @@ const DATA = {"ledger": [{"r": 1, "change": "switch validation to walk_forward",
 
 // ---------- Experiment 01 ----------
 const LUCK = {
-  naive: { fd: 75.3, pw: 84.7, rep: "0.77", repL: "Sharpe it reports in markets with no edge", earn: "0.11",
-           note: "It flags almost everything, so its high detection rate is not skill." },
-  disc:  { fd: 2.0, pw: 23.7, rep: "1 test", repL: "on data it never saw while choosing", earn: "0.44",
-           note: "It misses more real edges with only 10 years of data. That gap is what more data, not more tinkering, closes." }
+  naive:  { fd: 99.3, pw: 100, rep: "1.18", earn: "76", note: "Most of its finds use fundamentals stamped at quarter end, one to two months before investors could see them." },
+  noleak: { fd: 63.7, pw: 96.0, rep: "0.81", earn: "70", note: "Even on clean data, trying 70 variants and keeping the best invents an edge in most markets." },
+  leak:   { fd: 96.0, pw: 100, rep: "1.06", earn: "1", note: "One honest hypothesis, but with quarter-end dates: the look-ahead leak alone fakes an edge almost every time." },
+  disc:   { fd: 4.3, pw: 89.7, rep: "0.01", earn: "1", note: "One hypothesis on data as investors saw it: under the 5% line, and it still finds 90% of the real edges." }
 };
 function setLuck(m) {
   const d = LUCK[m];
-  document.getElementById("m-naive").setAttribute("aria-pressed", m === "naive");
-  document.getElementById("m-disc").setAttribute("aria-pressed", m === "disc");
+  document.querySelectorAll("#luck .seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === m));
   const fd = document.getElementById("b-fd"), pw = document.getElementById("b-pw");
   fd.style.width = d.fd + "%"; fd.style.background = d.fd > 5 ? "var(--warn)" : "var(--good)";
   pw.style.width = d.pw + "%"; pw.style.background = "var(--accent)";
   document.getElementById("v-fd").textContent = d.fd.toFixed(0) + "%";
   document.getElementById("v-pw").textContent = d.pw.toFixed(0) + "%";
   document.getElementById("k-rep").textContent = d.rep;
-  document.getElementById("k-rep-l").textContent = d.repL;
   document.getElementById("k-earn").textContent = d.earn;
   document.getElementById("luck-note").textContent = d.note;
 }
-document.getElementById("m-naive").addEventListener("click", () => setLuck("naive"));
-document.getElementById("m-disc").addEventListener("click", () => setLuck("disc"));
+document.querySelectorAll("#luck .seg button").forEach(b => b.addEventListener("click", () => setLuck(b.dataset.m)));
 setLuck("naive");
 
 // ---------- Experiment 02 ----------
