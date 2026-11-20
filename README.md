@@ -16,7 +16,7 @@ The engine is general. Each market gets a **domain pack** built from its own cau
 
 Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial research lab. The research code, causal models and datasets are private; this repository shows the approach and the results.
 
-*Built with Claude as an AI collaborator. Brian sets the research questions, writes the judge's rules and approves every change that goes live; Claude proposes, builds and tests within them.*
+*Built with Claude as an AI collaborator. Brian sets the vision, the domains, the structure and the architecture, and draws on decades of experience across domains and technologies to drive the design, the novel elements and every round of iteration and improvement. He writes the judge's rules and approves every change that goes live. Claude builds, runs and tests within them.*
 
 > All results below come from simulated or synthetic markets with known answers. No real-market performance is claimed, and nothing here is investment advice.
 
