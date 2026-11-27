@@ -22,7 +22,7 @@ Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial rese
 
 ## New: Gedanken Galaxy (alpha)
 
-**[Ask the Galaxy](https://gedanken.vector1.ai/galaxy/)**
+**[Ask the Galaxy](https://vector1.ai/demos/gedanken-galaxy/)** (also at gedanken.vector1.ai/galaxy/)
 
 Gedanken Galaxy runs a zoo of forecasting models on public natural gas, nitrogen fertilizer, corn and food price data, stores every forecast and test in a graph, and answers plain-English questions. Its rule is **Counted Galaxy Search**: every idea the Galaxy has ever examined is counted in a hash-chained ledger, and every claim must clear a bar that rises with that count, in tiers set by the causal map.
 
