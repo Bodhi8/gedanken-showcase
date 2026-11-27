@@ -20,6 +20,18 @@ Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial rese
 
 > All results below come from simulated or synthetic markets with known answers. No real-market performance is claimed, and nothing here is investment advice.
 
+## New: Gedanken Galaxy (alpha)
+
+**[Ask the Galaxy](https://gedanken.vector1.ai/galaxy/)**
+
+Gedanken Galaxy runs a zoo of forecasting models on public natural gas, nitrogen fertilizer, corn and food price data, stores every forecast and test in a graph, and answers plain-English questions. Its rule is **Counted Galaxy Search**: every idea the Galaxy has ever examined is counted in a hash-chained ledger, and every claim must clear a bar that rises with that count, in tiers set by the causal map.
+
+- In 1,000 simulated markets with no edge, taking the best of 114 strategies at the usual bar claimed alpha 81% of the time. Counted Galaxy Search claimed it 3% of the time and found a planted edge in 36.5% of 400 markets that had one, against 25.8% for even counting.
+- On 21 years of public data, 297 ideas were scored. Tested one at a time, 93 look like edges; 11 survive, all on the nitrogen fertilizer price index (a budget-forecasting edge, not a tradable one).
+- Live forecasts go into a hash-chained shadow log before the data is published.
+
+The page reads a frozen, hashed snapshot. The engine, features and calibration are private.
+
 ## Four findings
 
 **1. Most factor research cannot tell alpha from luck.** *(stock-factor pack)* In 300 simulated stock markets with no edge at all, a typical search that tries 76 factor variants and keeps the best claimed one 99% of the time. Two mistakes compound: trying many variants (64% on its own) and stamping fundamentals at quarter end, one to two months before investors could see them (96% on its own). One pre-registered test on data as investors saw it claimed a false edge 4% of the time and still found 90% of the real, planted edges.

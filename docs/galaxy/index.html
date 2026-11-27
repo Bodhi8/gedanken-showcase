@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gedanken Galaxy (alpha): Searchable Commodity Forecasting With a Counted Denominator | Vector1</title>
+<meta name="description" content="Gedanken Galaxy runs a zoo of forecasting models across natural gas, nitrogen fertilizer, corn and food prices, stores every result in a graph, and answers typed questions. Every answer says how many ideas were examined, and every question raises the bar for the next claim.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vector1">
+<meta property="og:title" content="Gedanken Galaxy (alpha): ask a forecasting graph where the edge is, and see what the answer cost">
+<meta property="og:description" content="Nine forecasting models, five commodity series from gas to groceries, 297 ideas scored on 21 years of public data. A naive search claims 93 edges. Counted Galaxy Search keeps 11.">
+<meta property="og:url" content="https://gedanken.vector1.ai/galaxy/">
+<meta property="og:image" content="https://gedanken.vector1.ai/galaxy/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://gedanken.vector1.ai/galaxy/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4f6f7; --surface: #ffffff; --ink: #15212b; --muted: #5a6872; --rule: #d8dee2;
+  --accent: #1d5fd1; --accent-soft: #e3ecfb; --warn: #b5650d; --warn-soft: #f6eadb; --good: #23824f;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --surface: #16212a; --ink: #e6edf2; --muted: #9aa9b4; --rule: #2a3843;
+    --accent: #6ea2ff; --accent-soft: #1b2d4a; --warn: #e3a35a; --warn-soft: #3a2a17; --good: #5cc48a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 var(--body); }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+header.top { border-bottom: 1px solid var(--rule); }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+.brand { font: 600 15px var(--display); letter-spacing: .02em; }
+.brand a { color: inherit; text-decoration: none; }
+.brand span { color: var(--muted); font-weight: 500; }
+nav { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover { color: var(--ink); }
+.hero { padding: 44px 0 20px; display: grid; gap: 14px; }
+h1 { font: 700 clamp(36px, 6vw, 56px)/1.02 var(--display); margin: 0; letter-spacing: -.01em; }
+.tagline { font: 500 clamp(18px, 2.4vw, 22px)/1.35 var(--display); margin: 0; max-width: 44ch; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 70ch; margin: 0; }
+.status { display: flex; gap: 10px; flex-wrap: wrap; }
+.pill { font: 500 12.5px var(--mono); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--muted); }
+.pill.alpha { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--rule)); }
+section.block { border-top: 1px solid var(--rule); padding: 36px 0; }
+.num { font: 500 13px var(--mono); color: var(--muted); letter-spacing: .04em; }
+h2 { font: 600 clamp(23px, 3.2vw, 30px)/1.15 var(--display); margin: 6px 0 12px; text-wrap: balance; }
+h3 { font: 600 17px var(--display); margin: 0 0 8px; }
+p { margin: 0 0 12px; max-width: 70ch; }
+.small { font-size: 13.5px; color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.two > *, .meter > * { min-width: 0; }
+@media (max-width: 480px) { .meter b { font-size: 17px; } .ask form { flex-wrap: wrap; } .ask button.go { padding: 10px 18px; } }
+
+/* prompt box */
+.ask { display: grid; gap: 12px; }
+.ask form { display: flex; gap: 8px; }
+.ask input[type=text] { flex: 1; font: 16px var(--body); padding: 12px 14px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); color: var(--ink); min-width: 0; }
+.ask button.go { font: 600 15px var(--body); padding: 0 18px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+:root[data-theme="dark"] .ask button.go { color: #0f161c; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ask button.go { color: #0f161c; } }
+.examples { display: flex; flex-wrap: wrap; gap: 8px; }
+.examples button { font: 500 13px var(--body); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; text-align: left; }
+.examples button:hover { color: var(--ink); border-color: var(--accent); }
+.answer { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; min-height: 60px; }
+.answer .denom { font: 500 13px var(--mono); color: var(--muted); margin-bottom: 8px; }
+.answer table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 8px 0; }
+.answer th, .answer td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.answer th { font: 500 12px var(--mono); color: var(--muted); }
+.answer td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; font: 500 11.5px var(--mono); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.pass { background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+.chip.fail { background: var(--paper); color: var(--muted); border: 1px solid var(--rule); }
+.chip.naive { background: var(--warn-soft); color: var(--warn); }
+.meter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.meter div { border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; }
+.meter b { display: block; font: 600 20px var(--mono); font-variant-numeric: tabular-nums; }
+.meter span { font-size: 12px; color: var(--muted); }
+
+/* galaxy */
+#galaxy-svg { width: 100%; height: auto; display: block; }
+#galaxy-svg text { font-family: var(--body); fill: var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+#star-card { min-height: 92px; font-size: 14px; }
+.map-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.map-hint { display: none; margin: 6px 0 0; }
+@media (max-width: 760px) { #galaxy-svg { min-width: 760px; } .map-hint { display: block; } }
+
+/* charts and tables */
+.chart { width: 100%; height: auto; display: block; }
+.chart text { font-family: var(--body); fill: var(--muted); font-size: 12px; }
+.rules { width: 100%; border-collapse: collapse; font-size: 14px; }
+.rules th, .rules td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+.rules th { font: 500 12px var(--mono); color: var(--muted); }
+.rules td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.rules tr.hi td { background: var(--accent-soft); }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+.kv div { border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; background: var(--surface); }
+.kv b { display: block; font: 600 22px var(--mono); font-variant-numeric: tabular-nums; }
+.kv span { font-size: 12.5px; color: var(--muted); }
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+@media (max-width: 760px) { .flow { grid-template-columns: 1fr; } }
+.flow div { border: 1px solid var(--rule); border-radius: 8px; padding: 12px; background: var(--surface); font-size: 14px; }
+.flow b { display: block; font: 600 15px var(--display); margin-bottom: 4px; }
+footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--muted); font-size: 13.5px; }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><a href="/">GEDANKEN <span>by Vector1</span></a> · GALAXY</div>
+  <nav aria-label="Sections"><a href="#ask">Ask</a><a href="#map">The galaxy</a><a href="#proof">Known-answer test</a><a href="#real">Real data</a><a href="#shadow">Shadow log</a><a href="#how">How it works</a></nav>
+</div></header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="title">
+    <h1 id="title">Gedanken Galaxy</h1>
+    <p class="tagline">A searchable graph of forecasting models, from natural gas to the grocery bill, that tells you what every answer cost.</p>
+    <p class="lede">Gedanken Galaxy runs a zoo of forecasting models on five public commodity series: Henry Hub gas, European gas, nitrogen fertilizer prices, corn and food at home. Every forecast, test and result goes into a graph. You ask a question in plain English, and the Galaxy searches the graph and answers. Every answer states how many ideas it examined, and every question raises the bar for the next claim. We call this Counted Galaxy Search.</p>
+    <div class="status">
+      <span class="pill alpha">Alpha release</span>
+      <span class="pill" id="pill-asof">Data as of …</span>
+      <span class="pill" id="pill-ledger">Ledger: … ideas examined</span>
+      <span class="pill">Public data and simulations only. Not advice.</span>
+    </div>
+  </section>
+
+  <section class="block" id="ask" aria-labelledby="h-ask">
+    <div class="num">01 · ASK THE GALAXY</div>
+    <h2 id="h-ask">Type a question about a commodity, a horizon or a driver</h2>
+    <div class="two">
+      <div>
+        <p>Try a search for an edge, a forecast, a model comparison or a causal path. The page answers from a frozen, dated snapshot of the Galaxy, so it runs in your browser and nothing you type leaves it.</p>
+        <p>Watch the meter. Asking again for something the Galaxy already examined costs nothing. Asking for something new, such as only the high-conviction calls, adds new ideas to the ledger, and every bar on the page rises a little.</p>
+        <div class="meter" aria-live="polite">
+          <div><b id="m-total">0</b><span>ideas in the ledger</span></div>
+          <div><b id="m-session">0</b><span>added by your questions</span></div>
+          <div><b id="m-pass">0</b><span>claims that still pass</span></div>
+        </div>
+      </div>
+      <div class="panel ask">
+        <form id="ask-form" role="search">
+          <label for="q" class="small" style="position:absolute;left:-9999px">Your question</label>
+          <input type="text" id="q" placeholder="Find alpha in nitrogen fertilizer next quarter" autocomplete="off">
+          <button class="go" type="submit">Ask</button>
+        </form>
+        <div class="examples" id="examples" aria-label="Example questions"></div>
+        <div class="answer" id="answer" aria-live="polite"><span class="small">Answers appear here.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="map" aria-labelledby="h-map">
+    <div class="num">02 · THE GALAXY</div>
+    <h2 id="h-map">Every model, horizon and test as a point you can inspect</h2>
+    <p>Each series is a star. The points around it are the ideas the Galaxy has scored for that series: nine models, three horizons (inner ring one month, outer ring six), and two tests each. Lines are the causal links from Gedanken's domain packs. Click any point to see its evidence. Points your last question examined are ringed.</p>
+    <div class="panel">
+      <div class="map-scroll"><svg id="galaxy-svg" viewBox="0 0 980 470" role="img" aria-label="Galaxy map of forecasting ideas by series"></svg></div>
+      <p class="small map-hint">Swipe sideways to see the whole map.</p>
+      <div class="legend">
+        <span><i style="background:var(--good);width:12px;height:12px"></i>passes Counted Galaxy Search (large, filled)</span>
+        <span><i style="background:transparent;border:2px solid var(--warn);width:9px;height:9px"></i>passes only a naive bar (hollow)</span>
+        <span><i style="background:var(--rule)"></i>no edge</span>
+      </div>
+      <div id="star-card" class="small" style="margin-top:10px">Click a point.</div>
+    </div>
+  </section>
+
+  <section class="block" id="proof" aria-labelledby="h-proof">
+    <div class="num">03 · KNOWN-ANSWER TEST</div>
+    <h2 id="h-proof">In markets where we planted the answer, a prompt box that does not count invents edges</h2>
+    <div class="two">
+      <div>
+        <p>Before any real question, we ran the Galaxy's search on Gedanken's simulated fertilizer-producer stock markets. In some worlds a real edge is planted, and in others there is none. Each world gets the same pool of candidate strategies, and each search rule says whether it found an edge.</p>
+        <p id="proof-text"></p>
+        <p class="small">The table compares four ways to answer "is there alpha here?" on the same worlds. False discoveries are claims in worlds with no edge; power is finding the planted edge.</p>
+      </div>
+      <div class="panel">
+        <table class="rules" id="rules-table"></table>
+      </div>
+    </div>
+    <div class="two" style="margin-top:24px">
+      <div class="panel">
+        <h3>False discoveries as you ask more questions</h3>
+        <svg class="chart" id="sweep-chart" viewBox="0 0 480 260" role="img" aria-label="False discovery rate by number of questions, naive versus counted"></svg>
+      </div>
+      <div class="panel">
+        <h3>Power after other people ask exploratory questions</h3>
+        <svg class="chart" id="dilution-chart" viewBox="0 0 480 260" role="img" aria-label="Power after extra exploratory questions, flat counting versus Counted Galaxy Search"></svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="real" aria-labelledby="h-real">
+    <div class="num">04 · REAL PUBLIC DATA</div>
+    <h2 id="h-real">On 21 years of gas, fertilizer, corn and food prices, most of what looks like an edge is not one</h2>
+    <p id="real-text"></p>
+    <div class="kv" id="real-kv"></div>
+    <p class="small" style="margin-top:12px">Monthly commodity prices are averages of daily prices, and averaging alone makes their changes partly predictable. Price indexes are smoothed too. The Galaxy measures how much predictability that alone creates by running the same zoo on simulated series where nothing is predictable, and it only credits what goes beyond it.</p>
+  </section>
+
+  <section class="block" id="shadow" aria-labelledby="h-shadow">
+    <div class="num">05 · SHADOW LOG</div>
+    <h2 id="h-shadow">Live forecasts logged before the data exists, scored when it is published</h2>
+    <p>Each build writes its forecasts to an append-only, hash-chained log before the target month is published. Ideas that pass become shadow strategies with frozen code. Nothing trades. The log only grows, and it cannot be backfilled, which is what makes it a track record.</p>
+    <div class="panel" style="overflow-x:auto"><table class="rules" id="shadow-table"></table></div>
+  </section>
+
+  <section class="block" id="how" aria-labelledby="h-how">
+    <div class="num">06 · HOW IT WORKS</div>
+    <h2 id="h-how">Five layers, one rule: every idea examined is counted</h2>
+    <div class="flow">
+      <div><b>Model zoo</b>Nine model families, from a random walk to machine learning, forecast every series at one, three and six months, using only data available at the time.</div>
+      <div><b>Galaxy graph</b>Series, models, ideas, evidence, regimes, forecasts and causal links, stored as a property graph.</div>
+      <div><b>Build-up</b>A synthesis of the zoo for each target. In the known-answer test it beat every single model.</div>
+      <div><b>Counted ledger</b>A hash-chained ledger of every idea ever examined. Bars rise with it, in tiers set by the causal map.</div>
+      <div><b>Prompt layer</b>Turns a question into calls to a fixed set of tools. It never computes evidence; it relays it, with the denominator.</div>
+    </div>
+    <p style="margin-top:16px">The causal map splits the error budget before any data is seen: half for the build-up, 30% for models built on a series' causal drivers, 20% for everything else, including whatever users ask. Exploratory questions dilute only the exploratory share, so the causal build-up keeps its power however much the prompt box is used. Across the whole ledger, the chance of any false claim stays at or under 5%.</p>
+    <p class="small">One caveat, stated plainly: the guarantee covers questions that are not chosen after seeing earlier answers. The ledger cannot stop someone from fishing, but it shows the fishing and always charges for it.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>Gedanken Galaxy is an alpha release of a Vector1 research project by Brian Curry. Data: EIA (Henry Hub spot), BLS producer and consumer price indexes and IMF commodity prices via FRED. Known-answer results come from simulated markets. Nothing here is investment, trading or procurement advice. The engine, model features, causal map parameters and calibration are private; this page reads a frozen snapshot. <span id="snap-hash"></span></p>
+  <p><a href="/">Back to Gedanken</a> · <a href="https://vector1.ai">vector1.ai</a></p>
+</div></footer>
+
+<script>
+(async function () {
+  const $ = (id) => document.getElementById(id);
+  const S = await fetch("snapshot.json").then((r) => r.json());
+  const ALPHA = S.ledger.alpha, SHARE = S.ledger.tier_share;
+  const LABEL = Object.fromEntries(S.series.map((s) => [s.id, s.label]));
+  const MLABEL = Object.fromEntries(S.models.map((m) => [m.id, m.label]));
+  const KIND = Object.fromEntries(S.series.map((s) => [s.id, s.kind]));
+  const MEANING = {
+    index: "a budget-forecasting edge on a price index, useful if your contract is priced on it. Not a tradable edge.",
+    spot_avg: "an edge on a monthly average price beyond what averaging explains. Not by itself a tradable edge.",
+  };
+  const pct = (x) => (x * 100).toFixed(1).replace(/\.0$/, "") + "%";
+
+  // inverse normal CDF (Acklam)
+  function ppf(p) {
+    const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
+    const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+    const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+    const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+    const pl = 0.02425;
+    let q, r;
+    if (p < pl) { q = Math.sqrt(-2 * Math.log(p)); return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    if (p > 1 - pl) { q = Math.sqrt(-2 * Math.log(1 - p)); return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    q = p - 0.5; r = q * q;
+    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+  }
+
+  // ---------- session ledger ----------
+  const C = Object.fromEntries(S.candidates.map((c) => [c.id, c]));
+  const counted = new Set(S.candidates.filter((c) => c.counted).map((c) => c.id));
+  const base = counted.size;
+  const tierCount = () => { const t = { buildup: 0, causal: 0, other: 0 }; counted.forEach((id) => t[C[id].tier]++); return t; };
+  const bar = (tier) => ppf(1 - ALPHA * SHARE[tier] / Math.max(1, tierCount()[tier]));
+  const passes = (c) => counted.has(c.id) && c.z > bar(c.tier);
+  let lastExamined = new Set();
+  function refreshMeter() {
+    $("m-total").textContent = counted.size;
+    $("m-session").textContent = counted.size - base;
+    $("m-pass").textContent = [...counted].filter((id) => passes(C[id])).length;
+    $("pill-ledger").textContent = `Ledger: ${counted.size} ideas examined`;
+  }
+
+  // ---------- planner (same intents as the private Operator) ----------
+  const WORDS = [["ttf", /europ|ttf|dutch|eu gas/], ["henry_hub", /henry|natural gas|nat ?gas|\bgas\b|\blng\b/],
+    ["nitrogen", /nitrogen|fertili[sz]er|urea|ammonia|\buan\b/], ["corn", /\bcorn\b|maize|grain/], ["food", /food|grocer|cpi/]];
+  function parse(q) {
+    const s = q.toLowerCase();
+    let found = WORDS.filter(([, re]) => re.test(s)).map(([id]) => id);
+    if (found.includes("henry_hub") && found.includes("ttf") && !/henry|us gas|u\.s\./.test(s)) found = found.filter((x) => x !== "henry_hub");
+    let h = null;
+    if (/next month|1[- ]month|one month|30 days/.test(s)) h = 1;
+    else if (/quarter|3[- ]month|three month|90 days/.test(s)) h = 3;
+    else if (/6[- ]month|six month|half[- ]year|two quarters|180 days/.test(s)) h = 6;
+    const conf = /high[- ]conviction|confident|strong|only act/.test(s) ? 0.5 : null;
+    if (/\bvs\b|versus|compare|which model|models/.test(s)) return ["compare", { series: found[0] || "nitrogen", h: h || 3 }];
+    if (/(how|does|do|why).*(affect|drive|move|lead|pass|reach|feed)/.test(s) && found.length >= 2) return ["trace", { src: found[0], dst: found[found.length - 1] }];
+    if (/forecast|outlook|expect|where.*head|price (in|for)|next year/.test(s) && !/alpha|edge|signal/.test(s)) return ["forecast", { series: found[0] || null }];
+    return ["find", { series: found.length ? found : S.series.map((x) => x.id), h, k: conf }];
+  }
+
+  function find({ series, h, k }, q) {
+    const sel = S.candidates.filter((c) => series.includes(c.series) && (h == null || c.h === h) && (k == null ? c.k == null : c.k === k) && !c.model.startsWith("lead:"));
+    let added = 0;
+    sel.forEach((c) => { if (!counted.has(c.id)) { counted.add(c.id); added++; } });
+    lastExamined = new Set(sel.map((c) => c.id));
+    const rows = sel.map((c) => ({ c, bar: bar(c.tier), pass: passes(c) }));
+    const pass = rows.filter((r) => r.pass).sort((a, b) => (b.c.z - b.bar) - (a.c.z - a.bar));
+    const naive = sel.filter((c) => c.naive_passes).length;
+    const near = rows.filter((r) => !r.pass).sort((a, b) => (b.c.z - b.bar) - (a.c.z - a.bar))[0];
+    let html = `<div class="denom">Examined ${sel.length} ideas (${added} new). Ledger now ${counted.size}. Rule: tiered Bonferroni over the whole ledger, 5% family-wise.</div>`;
+    if (!pass.length) {
+      html += `<p>Nothing clears its bar, so the Galaxy reports <b>no edge</b> for this question. A naive search, testing each idea as if it were the only one, would have claimed ${naive}.</p>`;
+      if (near) html += `<p class="small">Closest miss: ${LABEL[near.c.series]}, ${MLABEL[near.c.model] || near.c.model}, ${near.c.h}-month ${near.c.test}, z ${near.c.z.toFixed(1)} against a bar of ${near.bar.toFixed(2)}.</p>`;
+    } else {
+      html += `<p><b>${pass.length} pass.</b> A naive search would have claimed ${naive}.</p><table><tr><th>Series</th><th>Model</th><th>Horizon</th><th>Test</th><th>Evidence z</th><th>Bar</th><th>Result</th></tr>`;
+      pass.slice(0, 8).forEach((r) => {
+        const m = r.c.test === "skill" ? `${r.c.skill_pct}% less error` : `${r.c.hit_pct}% right direction` + (r.c.k ? `, acts in ${r.c.acting_pct}% of months` : "");
+        html += `<tr><td>${LABEL[r.c.series]}</td><td>${MLABEL[r.c.model] || r.c.model}</td><td class="n">${r.c.h} mo</td><td>${r.c.test === "skill" ? "forecast skill" : "buy-ahead direction"}${r.c.k ? `, only when confident` : ""}</td><td class="n">${r.c.z.toFixed(1)}</td><td class="n">${r.bar.toFixed(2)}</td><td>${m}</td></tr>`;
+      });
+      html += `</table>`;
+      [...new Set(pass.map((r) => r.c.series))].forEach((s) => { html += `<p class="small">What a pass on ${LABEL[s].toLowerCase()} means: ${MEANING[KIND[s]]}</p>`; });
+    }
+    html += `<p class="small">Public data, frozen snapshot built ${S.built_at.slice(0, 10)}. Not investment or procurement advice.</p>`;
+    return html;
+  }
+
+  function compare({ series, h }) {
+    lastExamined = new Set();
+    const rows = {};
+    S.candidates.filter((c) => c.series === series && c.h === h && c.k == null && !c.model.startsWith("lead:")).forEach((c) => {
+      const r = rows[c.model] || (rows[c.model] = { model: c.model });
+      r[c.test] = c;
+    });
+    const eff = S.effective_models[`${series}|h${h}`];
+    let html = `<div class="denom">Reading the comparison is free. Searching for edges is what the ledger counts.</div><p>${LABEL[series]}, ${h}-month horizon. The eight models behave like <b>${eff.effective_models}</b> independent ones, because their errors move together.</p><table><tr><th>Model</th><th>Error vs random walk</th><th>Direction right</th><th>Passes</th></tr>`;
+    Object.values(rows).sort((a, b) => (b.direction?.z || 0) - (a.direction?.z || 0)).forEach((r) => {
+      const ok = (r.skill && passes(r.skill)) || (r.direction && passes(r.direction));
+      html += `<tr><td>${MLABEL[r.model] || r.model}</td><td class="n">${r.skill ? (r.skill.skill_pct > 0 ? "-" : "+") + Math.abs(r.skill.skill_pct) + "%" : ""}</td><td class="n">${r.direction?.hit_pct ?? ""}%</td><td>${ok ? '<span class="chip pass">yes</span>' : '<span class="chip fail">no</span>'}</td></tr>`;
+    });
+    return html + `</table>`;
+  }
+
+  function paths(src, dst) {
+    const adj = {}; S.causal_edges.forEach(([a, b]) => (adj[a] = adj[a] || []).push(b));
+    const out = [], st = [[src]];
+    while (st.length) { const p = st.pop(); const last = p[p.length - 1];
+      if (last === dst && p.length > 1) { out.push(p); continue; } if (p.length > 4) continue;
+      (adj[last] || []).forEach((n) => { if (!p.includes(n)) st.push([...p, n]); }); }
+    return out.sort((a, b) => a.length - b.length);
+  }
+  function trace({ src, dst }) {
+    lastExamined = new Set();
+    const ps = paths(src, dst);
+    if (!ps.length) return `<p>The causal map has no path from ${LABEL[src]} to ${LABEL[dst]}.</p>`;
+    let html = `<div class="denom">Causal paths from the domain packs, with out-of-sample lead tests on each link.</div>`;
+    ps.slice(0, 3).forEach((p) => { html += `<p><b>${p.map((x) => LABEL[x]).join(" to ")}</b></p><ul class="small">`;
+      p.slice(0, -1).forEach((a, i) => { const b = p[i + 1]; const e = S.leads.find((l) => l.src === a && l.dst === b);
+        const ev = e ? Object.entries(e.evidence).map(([h, v]) => `${h.slice(1)} mo: z ${v.z}${v.passes ? " (passes)" : ""}`).join(", ") : "not tested";
+        html += `<li>Does ${LABEL[a]} improve the forecast of ${LABEL[b]}? ${ev}</li>`; });
+      html += `</ul>`; });
+    return html + `<p class="small">A lead test asks whether adding the driver beats the target's own history, out of sample, on calibrated evidence.</p>`;
+  }
+
+  function forecast({ series }) {
+    lastExamined = new Set();
+    const fs = S.forecasts.filter((f) => !series || f.series === series);
+    let html = `<div class="denom">Build-up forecasts from the latest snapshot, logged in the shadow log before publication.</div><table><tr><th>Series</th><th>Target month</th><th>Change</th><th>10 to 90% range</th></tr>`;
+    fs.forEach((f) => { html += `<tr><td>${LABEL[f.series]}</td><td class="n">${f.target_month}</td><td class="n">${f.change_pct > 0 ? "+" : ""}${f.change_pct}%</td><td class="n">${f.p10} to ${f.p90}</td></tr>`; });
+    return html + `</table><p class="small">A forecast is not an edge. Ask "find alpha in …" to see whether a series' forecasts have passed the counted test.</p>`;
+  }
+
+  function ask(q) {
+    const [intent, args] = parse(q);
+    const html = intent === "find" ? find(args, q) : intent === "compare" ? compare(args) : intent === "trace" ? trace(args) : forecast(args);
+    $("answer").innerHTML = `<p class="small" style="margin-bottom:6px">You asked: ${q.replace(/[<>&]/g, "")}</p>` + html;
+    refreshMeter(); drawGalaxy();
+  }
+  $("ask-form").addEventListener("submit", (e) => { e.preventDefault(); const q = $("q").value.trim(); if (q) ask(q); });
+  ["Find alpha in nitrogen fertilizer next quarter", "Any edge in Henry Hub natural gas over six months?", "Only high-conviction calls on nitrogen next month",
+    "How does European gas reach food prices?", "Compare models for corn", "What is the outlook for nitrogen fertilizer?"].forEach((t) => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = t; b.onclick = () => { $("q").value = t; ask(t); }; $("examples").appendChild(b); });
+
+  // ---------- galaxy map ----------
+  const POS = { henry_hub: [140, 130], ttf: [140, 345], nitrogen: [420, 235], corn: [640, 235], food: [860, 235] };
+  const MODELS = S.models.map((m) => m.id);
+  function drawGalaxy() {
+    const svg = $("galaxy-svg"); const ns = "http://www.w3.org/2000/svg";
+    svg.innerHTML = "";
+    const el = (t, a) => { const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; };
+    S.causal_edges.forEach(([a, b]) => {
+      const [x1, y1] = POS[a], [x2, y2] = POS[b];
+      const lead = S.leads.find((l) => l.src === a && l.dst === b);
+      const ok = lead && Object.values(lead.evidence).some((v) => v.passes);
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2 - (a === "ttf" && b === "henry_hub" ? -30 : a === "henry_hub" && b === "ttf" ? 30 : 18);
+      el("path", { d: `M${x1},${y1} Q${mx},${my} ${x2},${y2}`, fill: "none", stroke: ok ? "var(--accent)" : "var(--rule)", "stroke-width": ok ? 2.5 : 1.2, "stroke-dasharray": ok ? "" : "4 4" });
+    });
+    S.series.forEach((s) => {
+      const [cx, cy] = POS[s.id];
+      [1, 3, 6].forEach((h, i) => el("circle", { cx, cy, r: 40 + 20 * i, fill: "none", stroke: "var(--rule)", "stroke-width": 0.6 }));
+      el("circle", { cx, cy, r: 24, fill: "var(--accent-soft)", stroke: "var(--accent)" });
+      const t = el("text", { x: cx, y: cy + 108, "text-anchor": "middle", "font-size": 13, "font-weight": 600 }); t.textContent = s.label;
+      S.candidates.filter((c) => c.series === s.id && c.k == null && !c.model.startsWith("lead:")).forEach((c) => {
+        const r = 40 + 20 * [1, 3, 6].indexOf(c.h);
+        const ang = (MODELS.indexOf(c.model) / MODELS.length) * 2 * Math.PI + (c.test === "skill" ? -0.09 : 0.09) - Math.PI / 2;
+        const x = cx + r * Math.cos(ang), y = cy + r * Math.sin(ang);
+        const p = passes(c), nv = !p && c.naive_passes;
+        if (lastExamined.has(c.id)) el("circle", { cx: x, cy: y, r: 7.5, fill: "none", stroke: "var(--ink)", "stroke-width": 1 });
+        const dot = el("circle", { cx: x, cy: y, r: p ? 5.5 : nv ? 3.6 : 4, fill: p ? "var(--good)" : nv ? "var(--surface)" : "var(--rule)", stroke: nv ? "var(--warn)" : "none", "stroke-width": nv ? 1.8 : 0, tabindex: 0, role: "button", "aria-label": c.id, style: "cursor:pointer" });
+        const show = () => { const b = bar(c.tier);
+          $("star-card").innerHTML = `<b>${s.label}</b> · ${MLABEL[c.model] || c.model} · ${c.h}-month · ${c.test === "skill" ? "forecast skill vs random walk" : "buy-ahead direction"}<br>Evidence z ${c.z.toFixed(1)} against a bar of ${b.toFixed(2)} (${c.tier} tier). ${p ? '<span class="chip pass">passes</span>' : nv ? '<span class="chip naive">naive bar only</span>' : '<span class="chip fail">no edge</span>'} ${c.test === "skill" ? `Error ${c.skill_pct > 0 ? "lower" : "higher"} than a random walk by ${Math.abs(c.skill_pct)}%.` : `Right direction ${c.hit_pct}% of months.`}`; };
+        dot.addEventListener("click", show); dot.addEventListener("keydown", (e) => { if (e.key === "Enter") show(); });
+      });
+    });
+  }
+
+  // ---------- known-answer section ----------
+  const K = S.known_answer, F = K.full_pool;
+  $("proof-text").textContent = `Across ${K.n_null.toLocaleString()} worlds with no edge and ${K.n_alpha} with a planted one, the pool held ${K.n_candidates} candidate strategies. Taking the best of them at the usual bar claimed an edge in ${pct(F.naive.false_discovery)} of the no-edge worlds, with a median Sharpe ratio of ${F.naive_best_sharpe_in_null_worlds.toFixed(2)} on money that was never there. Counted Galaxy Search claimed one in ${pct(F.galaxy.false_discovery)}, found the planted edge ${pct(F.galaxy.power)} of the time, and traced ${pct(F.galaxy.pick_is_causal_when_edge)} of its claims to the causal chain.`;
+  const rules = [["Best of " + K.n_candidates + ", usual bar", F.naive.false_discovery, F.naive.power, false],
+    ["Best of " + K.n_candidates + ", counted evenly", F.counted.false_discovery, F.counted.power, false],
+    ["One test chosen in advance", K.pre_registered.false_discovery, K.pre_registered.power, false],
+    ["Counted Galaxy Search", F.galaxy.false_discovery, F.galaxy.power, true]];
+  $("rules-table").innerHTML = `<tr><th>Search rule</th><th>False discoveries</th><th>Power</th></tr>` +
+    rules.map(([n, fd, pw, hi]) => `<tr class="${hi ? "hi" : ""}"><td>${n}</td><td class="n">${pct(fd)}</td><td class="n">${pct(pw)}</td></tr>`).join("");
+
+  function lineChart(svgId, xs, series, opts) {
+    const svg = $(svgId), ns = "http://www.w3.org/2000/svg", W = 480, H = 260, L = 46, R = 34, T = 16, B = 40;
+    const el = (t, a, txt) => { const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+    const lx = xs.map((x) => Math.log10(Math.max(x, 1)));
+    const x0 = Math.min(...lx), x1 = Math.max(...lx);
+    const X = (v) => L + (Math.log10(Math.max(v, 1)) - x0) / (x1 - x0 || 1) * (W - L - R);
+    const Y = (v) => T + (1 - v) * (H - T - B);
+    [0, 0.25, 0.5, 0.75, 1].forEach((v) => { el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: "var(--rule)" }); el("text", { x: L - 6, y: Y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + "%"); });
+    if (opts.gate) { el("line", { x1: L, x2: W - R, y1: Y(0.05), y2: Y(0.05), stroke: "var(--muted)", "stroke-dasharray": "4 3" }); el("text", { x: L + 6, y: Y(0.05) - 5, "text-anchor": "start" }, "5% tolerance"); }
+    xs.forEach((x, i) => { if (i < xs.length - 1 && X(xs[xs.length - 1]) - X(x) < 28) return;
+      el("text", { x: X(x), y: H - B + 16, "text-anchor": "middle" }, (opts.ticks ? opts.ticks[i] : x).toLocaleString()); });
+    el("text", { x: (L + W - R) / 2, y: H - 6, "text-anchor": "middle" }, opts.xlabel);
+    series.forEach((s) => {
+      el("polyline", { points: xs.map((x, i) => `${X(x)},${Y(s.v[i])}`).join(" "), fill: "none", stroke: s.color, "stroke-width": 2.5 });
+      xs.forEach((x, i) => el("circle", { cx: X(x), cy: Y(s.v[i]), r: 3.5, fill: s.color }));
+      const i = xs.length - 1; el("text", { x: X(xs[i]) - 4, y: Y(s.v[i]) + (s.dy || -9), "text-anchor": "end", style: `fill:${s.color};font-weight:600` }, s.name);
+    });
+  }
+  lineChart("sweep-chart", K.sweep.map((s) => s.n_questions), [
+    { name: "Naive", v: K.sweep.map((s) => s.naive_false_discovery), color: "var(--warn)" },
+    { name: "Counted", v: K.sweep.map((s) => s.counted_false_discovery), color: "var(--accent)", dy: -8 }], { xlabel: "candidates searched (log scale)", gate: true });
+  lineChart("dilution-chart", K.dilution.map((d) => Math.max(d.extra_questions, 1)), [
+    { name: "Counted Galaxy Search", v: K.dilution.map((d) => d.galaxy_power), color: "var(--good)" },
+    { name: "Counted evenly", v: K.dilution.map((d) => d.counted_power), color: "var(--accent)", dy: 16 }], { xlabel: "extra exploratory questions already asked", ticks: K.dilution.map((d) => d.extra_questions) });
+
+  // ---------- real-data section ----------
+  const base_c = S.candidates.filter((c) => c.counted);
+  const naiveN = base_c.filter((c) => c.naive_passes).length, passN = base_c.filter((c) => c.passes).length;
+  const passSeries = [...new Set(base_c.filter((c) => c.passes).map((c) => LABEL[c.series].toLowerCase()))];
+  const effs = Object.values(S.effective_models).map((e) => e.effective_models);
+  $("real-text").textContent = `The zoo scored ${base_c.length} ideas on monthly data from 2005 to ${S.as_of}, tested out of sample from 2012. Tested one at a time at the usual bar, ${naiveN} look like edges. Counted Galaxy Search keeps ${passN}, all on ${passSeries.join(" and ")}. Henry Hub gas, European gas, corn and food prices show no edge the Galaxy can credit. On null panels built so that nothing is predictable, the naive search claimed an edge in ${pct(S.null_check.naive_any_claim)} of panels and Counted Galaxy Search in ${pct(S.null_check.galaxy_any_claim)}.`;
+  $("real-kv").innerHTML = [[base_c.length, "ideas scored on real data"], [naiveN, "naive search would claim"], [passN, "pass Counted Galaxy Search"],
+    [`${Math.min(...effs).toFixed(1)} to ${Math.max(...effs).toFixed(1)}`, "effective models out of eight"]].map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
+
+  // ---------- shadow log ----------
+  $("shadow-table").innerHTML = `<tr><th>Series</th><th>Data through</th><th>Target month</th><th>Build-up change</th><th>10 to 90% range</th><th>Status</th></tr>` +
+    S.forecasts.map((f) => `<tr><td>${LABEL[f.series]}</td><td class="n">${f.as_of}</td><td class="n">${f.target_month}</td><td class="n">${f.change_pct > 0 ? "+" : ""}${f.change_pct}%</td><td class="n">${f.p10} to ${f.p90}</td><td><span class="chip fail">pending</span></td></tr>`).join("");
+
+  const lastPub = S.series.map((x) => x.last_published.slice(0, 7)).sort();
+  const asof = lastPub[0] === lastPub[lastPub.length - 1] ? lastPub[0] : `${lastPub[lastPub.length - 1]} (${lastPub[0]} for some series)`;
+  $("pill-asof").textContent = `Data through ${asof}`;
+  $("snap-hash").textContent = `Snapshot ${S.snapshot_hash.slice(0, 12)}, built ${S.built_at.slice(0, 10)}.`;
+  refreshMeter(); drawGalaxy();
+})();
+</script>
+</body>
+</html>
