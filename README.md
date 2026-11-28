@@ -24,7 +24,7 @@ Built by **Brian Curry** at [Vector1](https://vector1.ai), a non-commercial rese
 
 **[Ask the Galaxy](https://vector1.ai/demos/gedanken-galaxy/)** (also at gedanken.vector1.ai/galaxy/)
 
-Gedanken Galaxy runs a zoo of forecasting models on public natural gas, nitrogen fertilizer, corn and food price data, stores every forecast and test in a graph, and answers plain-English questions. Its rule is **Counted Galaxy Search**: every idea the Galaxy has ever examined is counted in a hash-chained ledger, and every claim must clear a bar that rises with that count, in tiers set by the causal map.
+Gedanken Galaxy runs a zoo of forecasting models on public natural gas, nitrogen fertilizer, corn and food price data, stores every forecast and test in a graph, and answers plain-English questions. Its rule is **Counted Galaxy Search** (patent pending, U.S. provisional application filed November 28, 2026): every idea the Galaxy has ever examined is counted in a hash-chained ledger, and every claim must clear a bar that rises with that count, in tiers set by the causal map.
 
 - In 1,000 simulated markets with no edge, taking the best of 114 strategies at the usual bar claimed alpha 81% of the time. Counted Galaxy Search claimed it 3% of the time and found a planted edge in 36.5% of 400 markets that had one, against 25.8% for even counting.
 - On 21 years of public data, 297 ideas were scored. Tested one at a time, 93 look like edges; 11 survive, all on the nitrogen fertilizer price index (a budget-forecasting edge, not a tradable one).
