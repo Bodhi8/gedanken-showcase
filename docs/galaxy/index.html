@@ -137,7 +137,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
       <span class="pill alpha">Alpha release</span>
       <span class="pill" id="pill-asof">Data as of …</span>
       <span class="pill" id="pill-ledger">Ledger: … ideas examined</span>
-      <span class="pill">Public data and simulations only. Not advice.</span>
+      <span class="pill">Public data and simulations only. Not investment, trading or procurement advice.</span>
     </div>
   </section>
 
@@ -325,7 +325,7 @@ footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; color: var(--m
       html += `</table>`;
       [...new Set(pass.map((r) => r.c.series))].forEach((s) => { html += `<p class="small">What a pass on ${LABEL[s].toLowerCase()} means: ${MEANING[KIND[s]]}</p>`; });
     }
-    html += `<p class="small">Public data, frozen snapshot built ${S.built_at.slice(0, 10)}. Not investment or procurement advice.</p>`;
+    html += `<p class="small">Public data, frozen snapshot built ${S.built_at.slice(0, 10)}. Not investment, trading or procurement advice.</p>`;
     return html;
   }
 
